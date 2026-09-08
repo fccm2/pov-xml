@@ -17,6 +17,8 @@ let is_global_settings tag =
   ("global_settings" = tag)
 let is_ambient_light tag =
   ("ambient_light" = tag)
+let is_box tag =
+  ("box" = tag)
 
 let () =
   let xt = Xt.parse_file ~filename:Sys.argv.(1) in
@@ -65,6 +67,28 @@ let () =
         | Xt.ETag (tag) -> aux_texr xt
         | Xt.Data (pdata) -> aux_texr xt
         | Xt.Comm (cmt) -> aux_texr xt
+  in
+
+  let rec aux_box xt =
+    match xt with
+    | [] -> invalid_arg "box"
+    | hx :: xt ->
+        match hx with
+        | Xt.ETag (tag)
+          when is_box tag ->
+            Printf.printf "}\n" ;
+            xt
+
+        | Xt.Tag (tag, ttr_lst)
+          when is_texture tag ->
+            Printf.printf "  texture {\n" ;
+            let xt = aux_texr xt in
+            aux_box xt
+
+        | Xt.Tag (tag, ttr_lst) -> aux_box xt
+        | Xt.ETag (tag) -> aux_box xt
+        | Xt.Data (pdata) -> aux_box xt
+        | Xt.Comm (cmt) -> aux_box xt
   in
 
   let rec aux_sphr xt =
@@ -176,6 +200,16 @@ let () =
               let position = Xt.val_attr ttr_lst "position" in
               let color = Xt.val_attr ttr_lst "color" in
               Printf.printf "light_source { <%s> color rgb <%s> }\n" position color ;
+              xt
+
+          | Xt.Tag (tag, ttr_lst)
+            when is_box tag ->
+              let corner1 = Xt.val_attr ttr_lst "corner1" in
+              let corner2 = Xt.val_attr ttr_lst "corner2" in
+              Printf.printf "box {\n" (*tag*) ;
+              Printf.printf "  <%s>,\n" corner1 ;
+              Printf.printf "  <%s>\n"  corner2 ;
+              let xt = aux_box xt in
               xt
 
           | Xt.Tag (tag, ttr_lst)

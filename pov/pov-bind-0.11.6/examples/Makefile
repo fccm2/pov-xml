@@ -6,6 +6,9 @@ all:
 	sh make-pov.sh
 	sh make-png.sh
 
+%.xml: %.ml
+	ocaml -I ../xml povray.cma $< > $@
+
 %.pov: %.ml
 	ocaml -I ../src povray.cma $< > $@
 
