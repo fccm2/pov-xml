@@ -101,8 +101,10 @@ let new_scene () =
 let string_of_scene (scene, includes) =
   let scene = List.rev scene in
   let includes = List.rev includes in
+  "<povx>\n\n" ^
   (String.concat "" includes) ^
-  (String.concat "" scene)
+  (String.concat "" scene) ^
+  "</povx>"
 
 let print_scene sc =
   print_string (string_of_scene sc)
@@ -233,7 +235,7 @@ let inc_file_of_string = Inc_file.of_string
 
 
 let get_include ~inc = Printf.sprintf "\
-#include \"%s.inc\"\n"
+<include inc='%s.inc' />\n"
   (string_of_inc_file ~inc)
 ;;
 
@@ -300,9 +302,9 @@ let add_camera (scene, includes) ~location ~look_at ?kind ?angle () =
 
 
 let get_background ~color = Printf.sprintf "
-  <background>
-    <color %s />
-  </background>
+<background>
+  <color %s />
+</background>
 " (get_color ~color);
 ;;
 
@@ -691,7 +693,6 @@ let _get_texture ?color ?scale ?def ?(normal="") ?(finish="") () =
         (" " ^ _def)
   in
   Printf.sprintf "
-
   <texture> %s %s
     <pigment>
       %s

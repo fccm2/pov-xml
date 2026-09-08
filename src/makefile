@@ -14,6 +14,10 @@ dep:
 	povray +W680 +H440 -V $(AA) +I$<
 clean:
 	$(MAKE) -C read/xmlerr-0.08.3e/src/ clean
+	$(MAKE) -C ../pov/pov-bind-0.11.6/examples/ clean2
+	$(MAKE) -C ../pov/pov-bind-0.11.6/examples/ clean
+	$(MAKE) -C ../pov/pov-bind-0.11.6/src/ clean
+	$(MAKE) -C ../pov/pov-bind-0.11.6/xml/ clean
 	$(MAKE) -C ppp clean
 	$(RM) xpov.opt
 	$(RM) xpov.o
