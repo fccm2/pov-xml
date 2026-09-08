@@ -832,17 +832,17 @@ let new_color_pattern ~pat ~color_map ?scale ?finish () =
 
 let get_sphere ~center:(x,y,z) ~radius ?(translate) ?(rotate) ?(scale) ?(texture="") () =
   let translate = match translate with None -> ""
-  | Some (x, y, z) -> Printf.sprintf "\n  translate='%g, %g, %g'" x y z in
+  | Some (x, y, z) -> Printf.sprintf " translate='%g, %g, %g'" x y z in
   let rotate = match rotate with None -> ""
-  | Some (x, y, z) -> Printf.sprintf "\n  rotate='%g, %g, %g'" x y z in
+  | Some (x, y, z) -> Printf.sprintf " rotate='%g, %g, %g'" x y z in
   let scale = match scale with None -> ""
-  | Some (x, y, z) -> Printf.sprintf "\n  scale='%g, %g, %g'" x y z in
+  | Some (x, y, z) -> Printf.sprintf " scale='%g, %g, %g'" x y z in
   Printf.sprintf "
-<sphere position='%g, %g, %g' radius='%g'>
-%s%s%s%s
+<sphere position='%g, %g, %g' radius='%g'%s%s%s>
+%s
 </sphere>
-\n" x y z radius texture
-    scale rotate translate;
+\n" x y z radius
+    scale rotate translate texture;
 ;;
 
 
@@ -856,31 +856,34 @@ let get_cone ~center1:(x1,y1,z1) ~radius1
   let scale = match scale with None -> ""
   | Some (x, y, z) -> Printf.sprintf "\n  scale <%g, %g, %g>" x y z in
   Printf.sprintf "
-cone {
-  <%g, %g, %g>, %g
-  <%g, %g, %g>, %g
-%s%s%s%s
-}\n" x1 y1 z1  radius1
-     x2 y2 z2  radius2  texture
-     scale rotate translate;
+<cone
+  center1='%g, %g, %g' radius1='%g'
+  center2='%g, %g, %g' radius2='%g'%s%s%s>
+%s
+</cone>
+\n" x1 y1 z1  radius1
+    x2 y2 z2  radius2
+    scale rotate translate  texture;
 ;;
 
 
 let get_box ~corner1:(x1,y1,z1) ~corner2:(x2,y2,z2) ?(translate) ?(rotate) ?(scale) ?(texture="") () =
   let translate = match translate with None -> ""
-  | Some (x, y, z) -> Printf.sprintf "\n  translate <%g, %g, %g>" x y z in
+  | Some (x, y, z) -> Printf.sprintf " translate='%g, %g, %g'" x y z in
   let rotate = match rotate with None -> ""
-  | Some (x, y, z) -> Printf.sprintf "\n  rotate <%g, %g, %g>" x y z in
+  | Some (x, y, z) -> Printf.sprintf " rotate='%g, %g, %g'" x y z in
   let scale = match scale with None -> ""
-  | Some (x, y, z) -> Printf.sprintf "\n  scale <%g, %g, %g>" x y z in
+  | Some (x, y, z) -> Printf.sprintf " scale='%g, %g, %g'" x y z in
   Printf.sprintf "
-box {
-  <%g, %g, %g>,
-  <%g, %g, %g>
-%s%s%s%s
-}\n" x1 y1 z1
-     x2 y2 z2 texture
-     scale rotate translate;
+<box
+  corner1='%g, %g, %g'
+  corner2='%g, %g, %g'%s%s%s>
+%s
+</box>
+\n" x1 y1 z1
+    x2 y2 z2
+    scale rotate translate
+    texture;
 ;;
 
 
@@ -893,13 +896,15 @@ let get_cylinder ~center1:(x1,y1,z1) ~center2:(x2,y2,z2) ~radius
   let scale = match scale with None -> ""
   | Some (x, y, z) -> Printf.sprintf "\n  scale <%g, %g, %g>" x y z in
   Printf.sprintf "
-cylinder {
-  <%g, %g, %g>,
-  <%g, %g, %g>,
-  %g%s%s%s%s
-}\n" x1 y1 z1
-     x2 y2 z2 radius texture
-     scale rotate translate;
+<cylinder
+  center1='%g, %g, %g'
+  center2='%g, %g, %g'
+  radius='%g'%s%s%s>
+%s
+</cylinder>
+\n" x1 y1 z1
+    x2 y2 z2 radius
+    scale rotate translate texture;
 ;;
 
 
