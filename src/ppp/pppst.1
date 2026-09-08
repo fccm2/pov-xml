@@ -1,0 +1,47 @@
+.TH "PPPST" "1" "2026-09-02" ".xml to indentation" "user command"
+.SH "NAME"
+\fBpppst\fP \- .xml to indentation
+.SH "SYNOPSIS"
+\fIcat\fP
+\fI<file>\fP.xml
+|
+\fBpppst\fP
+\-
+.
+.SH "DESCRIPTION"
+.PP 
+ $ ocaml test5.ml | cat -
+ <msl>
+ <image>
+ <merge>
+ <layer>
+ <new w='150' h='100' rgb='127,127,255' />
+ <draw_circle c='10,10' r='15' rgb='255,0,0' />
+ </layer>
+ <layer compose='multiply'>
+ <new w='150' h='100' rgb='255,255,255' />
+ <draw_rectangle pos='15,15' dims='10,10' rgb_stroke='0,0,255' stroke_width='2' />
+ </layer>
+ </merge>
+ </image>
+ <display />
+ </msl>
+.PP 
+ $ ocaml test5.ml | ./pppst.opt -
+ <msl>
+   <image>
+     <merge>
+       <layer>
+         <new w='150' h='100' rgb='127,127,255' />
+         <draw_circle c='10,10' r='15' rgb='255,0,0' />
+       </layer>
+       <layer compose='multiply'>
+         <new w='150' h='100' rgb='255,255,255' />
+         <draw_rectangle pos='15,15' dims='10,10' rgb_stroke='0,0,255' stroke_width='2' />
+       </layer>
+     </merge>
+   </image>
+   <display />
+ </msl>
+.PP 
+.

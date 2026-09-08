@@ -1,0 +1,95 @@
+module Xt = Xmlerr
+let is_background tag =
+  ("background" = tag)
+let is_color tag =
+  ("color" = tag)
+let is_camera tag =
+  ("camera" = tag)
+let () =
+  let xt = Xt.parse_file ~filename:Sys.argv.(1) in
+  let xt = Xt.rem_space xt in
+
+  let rec aux_cam xt =
+    match xt with
+    | [] -> invalid_arg "camera"
+    | hx :: xt ->
+        let xt =
+          match hx with
+          | Xt.ETag (tag)
+            when is_camera tag ->
+              Printf.printf "}\n" ;
+              xt
+          | Xt.Tag (tag, ttr_lst) -> xt
+          | Xt.ETag (tag) -> xt
+          | Xt.Data (pdata) -> xt
+          | Xt.Comm (cmt) -> xt
+        in
+        xt
+  in
+
+  let rec aux_bg xt =
+    match xt with
+    | [] -> invalid_arg "background"
+    | hx :: xt ->
+        let xt =
+          match hx with
+          | Xt.Tag (tag, ttr_lst)
+            when is_color tag ->
+              let rgb_color = Xt.val_attr ttr_lst "rgb" in
+              Printf.printf "color rgb <%s>" rgb_color ;
+              xt
+          | Xt.ETag (tag)
+            when is_color tag ->
+              Printf.printf "" ;
+              xt
+          | Xt.Tag (tag, ttr_lst) -> xt
+          | Xt.ETag (tag) -> xt
+          | Xt.Data (pdata) -> xt
+          | Xt.Comm (cmt) -> xt
+        in
+        xt
+  in
+
+  let rec aux_xt xt =
+    match xt with
+    | [] -> ()
+    | hx :: xt ->
+        let xt =
+          match hx with
+
+          | Xt.Tag (tag, ttr_lst)
+            when is_camera tag ->
+              Printf.printf "camera {\n" (*tag*) ;
+
+              let location = Xt.val_attr ttr_lst "location" in
+              Printf.printf "  location <%s>\n" location ;
+
+              let look_at = Xt.val_attr ttr_lst "look_at" in
+              Printf.printf "  look_at <%s>\n" look_at ;
+
+              let xt = aux_cam xt in
+              xt
+
+          | Xt.Tag (tag, _)
+            when is_background tag ->
+              Printf.printf "background { " (*tag*) ;
+              let xt = aux_bg xt in
+              xt
+
+          | Xt.ETag (tag)
+            when is_camera tag ->
+              xt
+
+          | Xt.ETag (tag)
+            when is_background tag ->
+              Printf.printf " }\n" ;
+              xt
+
+          | Xt.Tag (tag, ttr_lst) -> xt
+          | Xt.ETag (tag) -> xt
+          | Xt.Data (pdata) -> xt
+          | Xt.Comm (cmt) -> xt
+        in
+        aux_xt xt
+  in
+  aux_xt xt

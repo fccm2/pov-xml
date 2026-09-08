@@ -1,0 +1,18 @@
+   X M L  (H  T  M  L)  @with->ERR  
+
+==== Xmlerr ====
+
+  XML parsing with errors for OCaml.
+
+  This thing is an experimental thing written in OCaml,
+  which attempts to parse XML with errors,
+  in other words for parsing HTML.
+
+  And it does so in a very basic way, the type
+  returned will not represent a valid XML document
+  except if the original document is valid XML.
+
+  If you have any suggestion or comments:
+  Issues:
+  https://github.com/fccm/ocaml-xmlerr/issues
+

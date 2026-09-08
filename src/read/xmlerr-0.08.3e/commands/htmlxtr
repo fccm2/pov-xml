@@ -1,0 +1,35 @@
+#!/usr/bin/env ocaml
+#directory "+xmlerr"
+#directory "../src"
+#load "xmlerr.cma"
+#directory "+xmlerr/addons"
+#directory "../addons"
+#load "xmlerr_utils.cma"
+#directory "+unix"
+#load "unix.cma"
+
+let extract tmpl xs =
+  let tp = Xmlerr.parse_file ~filename:tmpl in
+  let xs = Xmlerr.strip_space xs in
+  let tp = Xmlerr.strip_space tp in
+  let lst = Xmlerr_utils.extract tp xs in
+  (*
+  if (List.length lst = 0) then prerr_endline "nothing extracted";
+  *)
+  List.iter (fun pats ->
+    print_endline (String.concat "\t" pats)
+  ) lst
+
+let () =
+  let args = List.tl (Array.to_list Sys.argv) in
+  match args with
+  | [tmpl; "-"] ->
+      let xs = Xmlerr.parse_ic stdin in
+      extract tmpl xs
+    (*
+  | [tmpl; url] ->
+      let _, _, page = Http.make_request ~url () in
+      let xs = Xmlerr.parse_string page in
+      extract tmpl xs
+    *)
+  | _ -> prerr_endline "please read:\nman ./htmlxtr.1"

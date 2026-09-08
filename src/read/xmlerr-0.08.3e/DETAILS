@@ -1,0 +1,14 @@
+The main module is in ./src/
+In this directory, compile with the command:
+$ make
+
+The directory addons/ contains additional modules,
+$ cat addons/readme.md
+$ make -C addons
+$ make -C addons doc
+
+Documentation of the main module:
+$ make -C src man
+
+An utility, to help writing pattern-matching:
+$ matching/print_code.sh

@@ -1,0 +1,39 @@
+#!/usr/bin/env ocaml
+#directory "+xmlerr"
+#directory "../src"
+#load "xmlerr.cma"
+
+#directory "+xmlerr/addons"
+#directory "../addons"
+#load "xmlerr_utmpl.cma"
+#load "xmlerr_tmpl.cma"
+
+let usage () =
+  let c = Sys.argv.(0) in
+  Printf.eprintf "usage:\n\
+    %s <untemplate-file> <re-template-file>\n\
+    man ./htmluxtr.1\n\
+    %!" c
+
+let extract utmpl xs tp =
+  let ts = Xmlerr_tmpl.read_tmpl tp in
+  let ut = Xmlerr.parse_file ~filename:utmpl in
+  let xs = Xmlerr.strip_space xs in
+  let ut = Xmlerr.strip_space ut in
+  let lst = Xmlerr_utmpl.extract ut xs in
+  if (List.length lst = 0) then
+    prerr_endline "nothing extracted";
+
+  List.iter (fun x ->
+    let sr = Xmlerr_tmpl.fe ts ~x in
+    print_string sr;
+  ) lst
+
+let () =
+  let args = List.tl (Array.to_list Sys.argv) in
+  match args with
+  | [utmpl; tmpl] ->
+      let xs = Xmlerr.parse_ic stdin in
+      let tp = Xmlerr.read_file tmpl in
+      extract utmpl xs tp
+  | _ -> usage ()

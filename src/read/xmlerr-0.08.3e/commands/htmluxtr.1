@@ -1,0 +1,77 @@
+.TH "HTMLUXTR" "1" "2012-11-25" "HTML extractor - alpha" "User Command"
+.SH "NAME"
+\fIhtmluxtr\fP \- a simple extractor for HTML using a simple un-template / re-template method.
+.
+.SH "SYNOPSIS"
+\fBhtmluxtr\fP
+\fB<untemplate\-file>\fP
+\fB<retemplate\-file>\fP
+.PP 
+The input is on \fIstdin\fP.
+.PP 
+The output is on \fIstdout\fP.
+.
+.SH "DESCRIPTION"
+\fIhtmluxtr\fP is a simple tool to extract pieces of content from HTML
+pages, using a simple untemplate and retemplate format.
+.
+.
+.SH "UNTEMPLATING"
+.PP 
+Here is the HTML content that we want to extract something from:
+  <html>
+  <body>
+  <ul>
+    <li><a href="alpha.html">alpha</a></li>
+    <li><a href="beta.html">beta</a></li>
+    <li><a href="gamma.html">gamma</a></li>
+  </ul>
+  </body>
+  </html>
+.PP 
+Templates-like are used to match pieces of HTML from the input.
+.br 
+Here is an example of un-template file:
+  <li><a href="\fB@link@\fP">\fB@label@\fP</a></li>
+.PP 
+And the associated re-template file:
+  (item
+    (label "\fB@label@\fP")
+    (link "\fB@link@\fP")
+  )
+.PP 
+The output result will be:
+.PP 
+  (item
+    (label "alpha")
+    (link "alpha.html")
+  )
+  (item
+    (label "beta")
+    (link "beta.html")
+  )
+  (item
+    (label "gamma")
+    (link "gamma.html")
+  )
+.PP 
+To ignore elements, use the underscore character \fB_\fP
+.br 
+(instead of the at character \fB@\fP) like this:
+.PP 
+  <li><a href="\fB@link@\fP">\fB_\fP</a></li>
+.PP 
+.
+.SH "SUGGESTIONS"
+Suggestions to improve this tool are appreciated.
+.
+.SH "AUTHOR"
+(C) 2013 Florent Monnier
+.
+.SH "LICENSE"
+The code is provided along the MIT license.
+.PP 
+This software is provided "AS\-IS", without warranty of any kind.
+.
+.SH "CONTACT"
+Issues: https://github.com/fccm/ocaml-xmlerr/issues
