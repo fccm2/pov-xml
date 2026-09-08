@@ -330,7 +330,9 @@ let add_light_source (scene, includes) ~location ~color =
   (li :: scene, includes)
 
 let get_ambient_light ~color:(r, g, b) = Printf.sprintf "
-global_settings { ambient_light rgb <%g, %g, %g> }\n" r g b
+<global_settings>
+  <ambient_light rgb='%g, %g, %g' />
+</global_settings>\n" r g b
 
 let add_ambient_light (scene, includes) ~color =
   let ali = get_ambient_light ~color in
