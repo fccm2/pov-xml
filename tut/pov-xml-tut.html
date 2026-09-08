@@ -1,0 +1,98 @@
+<html>
+<head>
+<title>.pov to .xml, tutorial</title>
+<style>
+<!--
+pre { white-space:pre-wrap; font-family:monospace; color:#ffffff; background-color:#000000; }
+body { font-family:monospace; color:#000000; background-color:#ffffff; }
+* { font-size:1em; }
+a { color:inherit; }
+.Statement { color:#afaf00; font-weight:bold; }
+.Type { color:#00af00; }
+.Identifier { color:#00afaf; }
+.Constant { color:#00ffff; }
+code { border:1px solid #000; }
+-->
+</style>
+</head>
+<body>
+<h1>.pov to .xml, tutorial</h1>
+
+<p><code>pov-xml</code> tries to provide an <code>.xml</code> syntax equivalent
+than the original <code>.pov</code></p>
+
+<p>here is an example,</p>
+
+<p><code>test5.xml</code></p>
+
+<pre>
+<span class="Identifier">&lt;</span><span class="Identifier">povx</span><span class="Identifier">&gt;</span>
+
+  <span class="Identifier">&lt;</span><span class="Identifier">background</span><span class="Identifier">&gt;</span>
+    <span class="Identifier">&lt;</span><span class="Identifier">color</span><span class="Identifier"> </span><span class="Type">rgb</span>=<span class="Constant">'0.2, 0.1, 0.4'</span><span class="Identifier"> /&gt;</span>
+  <span class="Identifier">&lt;/</span><span class="Identifier">background</span><span class="Identifier">&gt;</span>
+
+  <span class="Identifier">&lt;</span><span class="Identifier">camera</span><span class="Identifier"> </span><span class="Type">location</span>=<span class="Constant">'1.8, 4.8, 2.4'</span><span class="Identifier"> </span><span class="Type">look_at</span>=<span class="Constant">'0, 0.6, 0'</span><span class="Identifier"> /&gt;</span>
+
+  <span class="Identifier">&lt;</span><span class="Identifier">light_source</span><span class="Identifier"> </span><span class="Type">position</span>=<span class="Constant">'2, 4, -3'</span><span class="Identifier"> </span><span class="Type">color</span>=<span class="Constant">'0.4, 0.5, 0.6'</span><span class="Identifier"> /&gt;</span>
+
+  <span class="Identifier">&lt;</span><span class="Identifier">global_settings</span><span class="Identifier">&gt;</span>
+    <span class="Identifier">&lt;</span><span class="Identifier">ambient_light</span><span class="Identifier"> </span><span class="Type">rgb</span>=<span class="Constant">'0, 0.3, 0.6'</span><span class="Identifier"> /&gt;</span>
+  <span class="Identifier">&lt;/</span><span class="Identifier">global_settings</span><span class="Identifier">&gt;</span>
+
+  <span class="Identifier">&lt;</span><span class="Identifier">sphere</span><span class="Identifier"> </span><span class="Type">position</span>=<span class="Constant">'0, 0.8, 0.2'</span><span class="Identifier"> </span><span class="Type">radius</span>=<span class="Constant">'0.2'</span><span class="Identifier">&gt;</span>
+    <span class="Identifier">&lt;</span><span class="Identifier">texture</span><span class="Identifier">&gt;</span>
+      <span class="Identifier">&lt;</span><span class="Identifier">pigment</span><span class="Identifier">&gt;</span>
+        <span class="Identifier">&lt;</span><span class="Identifier">color</span><span class="Identifier"> </span><span class="Type">rgbt</span>=<span class="Constant">'0.1, 0.2, 0.9, 0.1'</span><span class="Identifier"> /&gt;</span>
+      <span class="Identifier">&lt;/</span><span class="Identifier">pigment</span><span class="Identifier">&gt;</span>
+    <span class="Identifier">&lt;/</span><span class="Identifier">texture</span><span class="Identifier">&gt;</span>
+  <span class="Identifier">&lt;/</span><span class="Identifier">sphere</span><span class="Identifier">&gt;</span>
+
+  <span class="Identifier">&lt;</span><span class="Identifier">box</span><span class="Identifier"> </span><span class="Type">corner1</span>=<span class="Constant">'0.1, 0.6, 0.1'</span><span class="Identifier"> </span><span class="Type">corner2</span>=<span class="Constant">'0.6, 0.7, 0.8'</span><span class="Identifier">&gt;</span>
+    <span class="Identifier">&lt;</span><span class="Identifier">texture</span><span class="Identifier">&gt;</span>
+      <span class="Identifier">&lt;</span><span class="Identifier">pigment</span><span class="Identifier">&gt;</span>
+        <span class="Identifier">&lt;</span><span class="Identifier">color</span><span class="Identifier"> </span><span class="Type">rgbt</span>=<span class="Constant">'0.1, 0.2, 0.9, 0.1'</span><span class="Identifier"> /&gt;</span>
+      <span class="Identifier">&lt;/</span><span class="Identifier">pigment</span><span class="Identifier">&gt;</span>
+    <span class="Identifier">&lt;/</span><span class="Identifier">texture</span><span class="Identifier">&gt;</span>
+  <span class="Identifier">&lt;/</span><span class="Identifier">box</span><span class="Identifier">&gt;</span>
+
+<span class="Identifier">&lt;/</span><span class="Identifier">povx</span><span class="Identifier">&gt;</span>
+</pre>
+
+
+<p>the command <code>./xpov.opt</code> transforms <code>test5.xml</code>, into <code>test5.pov</code>,</p>
+
+<p><code>test5.pov</code></p>
+
+
+<pre>
+<span class="Type">background</span> { <span class="Type">color</span> <span class="Type">rgb</span> &lt;<span class="Constant">0.2</span>, <span class="Constant">0.1</span>, <span class="Constant">0.4</span>&gt; }
+
+<span class="Type">camera</span> {
+  <span class="Identifier">location</span> &lt;<span class="Constant">1.8</span>, <span class="Constant">4.8</span>, <span class="Constant">2.4</span>&gt;
+  <span class="Identifier">look_at</span> &lt;<span class="Constant">0</span>, <span class="Constant">0.6</span>, <span class="Constant">0</span>&gt;
+}
+
+<span class="Type">light_source</span> { &lt;<span class="Constant">2</span>, <span class="Constant">4</span>, <span class="Constant">-3</span>&gt; <span class="Type">color</span> <span class="Type">rgb</span> &lt;<span class="Constant">0.4</span>, <span class="Constant">0.5</span>, <span class="Constant">0.6</span>&gt; }
+
+<span class="Statement">global_settings</span> { <span class="Type">ambient_light</span> <span class="Type">rgb</span> &lt;<span class="Constant">0</span>, <span class="Constant">0.3</span>, <span class="Constant">0.6</span>&gt; }
+
+<span class="Type">sphere</span> {
+  &lt;<span class="Constant">0</span>, <span class="Constant">0.8</span>, <span class="Constant">0.2</span>&gt;, <span class="Constant">0.2</span>
+  <span class="Type">texture</span> {
+    <span class="Type">pigment</span> { <span class="Type">color</span> <span class="Type">rgbt</span> &lt;<span class="Constant">0.1</span>, <span class="Constant">0.2</span>, <span class="Constant">0.9</span>, <span class="Constant">0.1</span>&gt; }
+  }
+}
+
+<span class="Type">box</span> {
+  &lt;<span class="Constant">0.1</span>, <span class="Constant">0.6</span>, <span class="Constant">0.1</span>&gt;,
+  &lt;<span class="Constant">0.6</span>, <span class="Constant">0.7</span>, <span class="Constant">0.8</span>&gt;
+  <span class="Type">texture</span> {
+    <span class="Type">pigment</span> { <span class="Type">color</span> <span class="Type">rgbt</span> &lt;<span class="Constant">0.1</span>, <span class="Constant">0.2</span>, <span class="Constant">0.9</span>, <span class="Constant">0.1</span>&gt; }
+  }
+}
+</pre>
+
+
+</body>
+</html>
